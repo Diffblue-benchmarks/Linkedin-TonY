@@ -9,7 +9,7 @@ cbmcArguments:
   java-max-vla-length: 100000
 phases:
   -
-    #Phase 0 PRETTY, SIMPLE and SMART - pretty tests, do not yest private methods directly, Smart-Harness
+    #Phase 0 PRETTY, SIMPLE and SMART - pretty tests, do not test private methods directly, Smart-Harness
     timeout: 180
     cbmcArguments:
       # Use simple models first containers (ArrayList, HashMap, HashSet,...) will have a maximum size of one.
@@ -33,8 +33,8 @@ phases:
       # Instrument the file as opposed to the function only
       cover-only: file
       # Set string input value  
-      string-input-value: ["foo", "Bar", "BAZ", "1234", "a,b,c", "1", "2", "3", "a/b/c", "a'b'c"]
-      # Instatiate classes using the simplest contructor stratergy 
+      string-input-value: ["foo", "Bar", "BAZ", "1234", "1a 2b 3c", ""A1B2C3", "a,b,c", "1", "2", "3", "a/b/c", "a'b'c", ",", "/", "'"]
+      # Instantiate classes using the simplest constructor strategy 
       smart-harness: simplest-constructor-and-nondet
   -
     #Phase 1 PRETTY AND COMPLEX - standard models only, pretty tests, do not test private methods directly, input factory
@@ -53,7 +53,7 @@ phases:
       # Add constraint that strings are printable
       string-printable: true
       # Set string input value  
-      string-input-value: ["foo", "Bar", "BAZ", "1234", "a,b,c", "1", "2", "3", "a/b/c", "a'b'c"]
+      string-input-value: ["foo", "Bar", "BAZ", "1234", "1a 2b 3c", ""A1B2C3", "a,b,c", "1", "2", "3", "a/b/c", "a'b'c", ",", "/", "'"]
       # Make implicit runtime exceptions explicit.
       throw-runtime-exceptions: false
       # Set an upper bound on loop unwinding.
@@ -82,6 +82,8 @@ phases:
       max-nondet-string-length: 100
       # Explores the program tree breadth-first.
       paths: fifo
+      # Set string input value  
+      string-input-value: ["foo", "Bar", "BAZ", "1234", "1a 2b 3c", ""A1B2C3", "a,b,c", "1", "2", "3", "a/b/c", "a'b'c", ",", "/", "'"]
       # Add constraint that strings are printable
       string-printable: true
       # Make implicit runtime exceptions explicit.
@@ -95,7 +97,7 @@ phases:
       # instrument the file as opposed to the function only
       cover-only: file
   -
-    #Phase 3 - exceptions, do not test private methods directly
+    #Phase 3 Exceptions - do not test private methods directly
     timeout: 180
     cbmcArguments:
       # Use simple models containers first (ArrayList, HashMap, HashSet,...) will have a maximum size of one.
@@ -119,7 +121,7 @@ phases:
       # instrument the file as opposed to the function only
       cover-only: file
   -
-    #Phase 4 - test private methods directly, increase reflection
+    #Phase 4 Direct testing - test private methods directly, increased reflection
     timeout: 180
     cbmcArguments:
       # Use simple models containers first (ArrayList, HashMap, HashSet,...) will have a maximum size of one.
@@ -139,13 +141,13 @@ phases:
       # Set an upper bound on loop unwinding.
       unwind: 1
       # Set string input value  
-      string-input-value: ["foo", "Bar", "BAZ", "1234", "a,b,c", "1", "2", "3", "a/b/c", "a'b'c"]
+      string-input-value: ["foo", "Bar", "BAZ", "1234", "1a 2b 3c", ""A1B2C3", "a,b,c", "1", "2", "3", "a/b/c", "a'b'c", ",", "/", "'"]
       # If the logs contain output of the following then proceed to phase X
     nextPhase:
       # If the function is not analysable then do not pass onto the next phase
       not_analyzed: null
   -
-    #PHASE 5 - aggressive mocking, do not test private methods directly
+    #PHASE 5 Mocking - aggressive mocking, do not test private methods directly
     timeout: 180
     cbmcArguments:
       # Use simple models containers first (ArrayList, HashMap, HashSet,...) will have a maximum size of one.
@@ -175,91 +177,313 @@ phases:
 units:
  - target:
    - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/Utils.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/Utils.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/rpc/TaskInfo.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/rpc/TaskInfo.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/HdfsUtils.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/HdfsUtils.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/Utils$1.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/Utils.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/TonyConfigurationKeys.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/TonyConfigurationKeys.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/Utils$2.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/Utils.java
-   - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/LocalizableResource.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/LocalizableResource.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/Utils$3.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/Utils.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/TFConfig.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/TFConfig.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/TFConfig$Task.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/TFConfig.java
  - target:
    - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/TonyConfigurationKeys.class
+     file: com/linkedin/tony/events/Event.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/Event.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/EventType.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/EventType.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/Event$Builder.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/Event.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetClusterSpecResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetClusterSpecResponseProto$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetClusterSpecResponseProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlResponseProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/client/TensorFlowClusterPBClientImpl.class
      sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/TonyConfigurationKeys.java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/client/TensorFlowClusterPBClientImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/EmptyPBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/EmptyPBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetClusterSpecResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/GetTaskInfosResponsePBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/GetTaskInfosResponsePBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/HeartbeatRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/HeartbeatRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$HeartbeatResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/GetTaskInfosResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/GetTaskInfosResponse.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterExecutionResultResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterExecutionResultResponse.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$HeartbeatRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterWorkerSpecResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterWorkerSpecResponse.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetClusterSpecRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$EmptyProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterTensorBoardUrlRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterTensorBoardUrlRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/HeartbeatRequestPBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/HeartbeatRequestPBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterTensorBoardUrlResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterTensorBoardUrlResponse.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/RegisterExecutionResultRequestPBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/RegisterExecutionResultRequestPBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterWorkerSpecRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterWorkerSpecRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/HeartbeatResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/HeartbeatResponse.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/RegisterTensorBoardUrlRequestPBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/RegisterTensorBoardUrlRequestPBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$HeartbeatRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/GetClusterSpecResponsePBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/GetClusterSpecResponsePBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/GetTaskInfosRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/GetTaskInfosRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/GetTaskInfosRequestPBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/GetTaskInfosRequestPBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/GetClusterSpecResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/GetClusterSpecResponse.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/RegisterWorkerSpecRequestPBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/RegisterWorkerSpecRequestPBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/Empty.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/Empty.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/HeartbeatResponsePBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/HeartbeatResponsePBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetClusterSpecRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/RegisterTensorBoardUrlResponsePBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/RegisterTensorBoardUrlResponsePBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterExecutionResultRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterExecutionResultRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/RegisterWorkerSpecResponsePBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/RegisterWorkerSpecResponsePBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/GetClusterSpecRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/GetClusterSpecRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/GetClusterSpecRequestPBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/GetClusterSpecRequestPBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$EmptyProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/RegisterExecutionResultResponsePBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/RegisterExecutionResultResponsePBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecRequestProto$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
  - target:
    - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/TonyClient.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/TonyClient.java
    - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/HdfsUtils.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/HdfsUtils.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/LocalizableResource.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/LocalizableResource.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/VersionInfo.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/VersionInfo.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/rpc/GetTaskInfosResponse.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/rpc/GetTaskInfosResponse.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/rpc/TaskInfo.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/rpc/TaskInfo.java
-   - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/rpc/impl/ApplicationRpcClient.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/rpc/impl/ApplicationRpcClient.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/Utils$1.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/Utils.java
    - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/util/Utils.class
      sourceDir: tony-core/src/main/java
@@ -269,14 +493,1169 @@ units:
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/TonyConfigurationKeys.java
    - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/client/CallbackHandler.class
+     file: com/linkedin/tony/util/HdfsUtils.class
      sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/client/CallbackHandler.java
+     sourceFile: com/linkedin/tony/util/HdfsUtils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/client/TaskUpdateListener.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/client/TaskUpdateListener.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils$1.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/GetTaskInfosResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/GetTaskInfosResponse.java
    - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/rpc/TensorFlowCluster.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/rpc/TensorFlowCluster.java
    - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/client/TaskUpdateListener.class
+     file: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.class
      sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/client/TaskUpdateListener.java
+     sourceFile: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/client/CallbackHandler.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/client/CallbackHandler.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/VersionInfo.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/VersionInfo.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/TaskInfo.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/TaskInfo.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/LocalizableResource.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/LocalizableResource.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosRequestProto$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$HeartbeatRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$HeartbeatRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$HeartbeatRequestProto$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/ApplicationMaster$RMCallbackHandler.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/ApplicationMaster.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/Event.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/Event.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/TaskStarted.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/TaskStarted.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/MetricsRpcServer.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/MetricsRpcServer.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/TonyConfigurationKeys.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/TonyConfigurationKeys.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/ApplicationMaster$1.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/ApplicationMaster.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/EventHandler.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/events/EventHandler.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/ApplicationMaster$ContainerLauncher.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/ApplicationMaster.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/tensorflow/TonySession.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/tensorflow/TonySession.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/tensorflow/TonySession$TonyTask.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/tensorflow/TonySession.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/ApplicationMaster.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/ApplicationMaster.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/TaskFinished.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/TaskFinished.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/LocalizableResource.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/LocalizableResource.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/TaskInfo.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/TaskInfo.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/MetricsWritable.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/MetricsWritable.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/tensorflow/TonySession$Builder.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/tensorflow/TonySession.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/TonyConfigurationKeys.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/TonyConfigurationKeys.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/tensorflow/TonySession.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/tensorflow/TonySession.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecResponseProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultResponseProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$EmptyProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$EmptyProto$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$EmptyProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/HistoryFileUtils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/HistoryFileUtils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/models/JobMetadata.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/models/JobMetadata.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlRequestProto$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/ApplicationInited.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/ApplicationInited.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/ApplicationInited$Builder.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/ApplicationInited.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/TensorFlowCluster$TensorFlowClusterService.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/TensorFlowCluster.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/TensorFlowCluster$TensorFlowClusterService$BlockingStub.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/TensorFlowCluster.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetClusterSpecResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/TensorFlowCluster$TensorFlowClusterService$2.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/TensorFlowCluster.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/TensorFlowCluster$TensorFlowClusterService$Stub.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/TensorFlowCluster.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$HeartbeatRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/TensorFlowCluster$TensorFlowClusterService$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/TensorFlowCluster.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetClusterSpecRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$EmptyProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$HeartbeatResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/TensorFlowCluster$TensorFlowClusterService$BlockingInterface.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/TensorFlowCluster.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/TensorFlowCluster$TensorFlowClusterService$Interface.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/TensorFlowCluster.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/TensorFlowCluster.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/TensorFlowCluster.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultResponseProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultResponseProto$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$HeartbeatResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$HeartbeatResponseProto$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$HeartbeatResponseProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/models/JobMetadata$Builder.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/models/JobMetadata.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/models/JobMetadata.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/models/JobMetadata.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/ApplicationMaster$RpcForClient.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/ApplicationMaster.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/tensorflow/TonySession.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/tensorflow/TonySession.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/TaskInfo.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/TaskInfo.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/tensorflow/TonySession$TonyTask.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/tensorflow/TonySession.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/ApplicationMaster.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/ApplicationMaster.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/ApplicationMaster$1.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/ApplicationMaster.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/TaskStarted.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/TaskStarted.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/TaskStarted$Builder.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/TaskStarted.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/ParserUtils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/ParserUtils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/models/JobConfig.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/models/JobConfig.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/models/JobMetadata$Builder.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/models/JobMetadata.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/HdfsUtils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/HdfsUtils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/models/JobMetadata.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/models/JobMetadata.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/TonyConfigurationKeys.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/TonyConfigurationKeys.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/MetricsWritable.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/MetricsWritable.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/MetricWritable.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/MetricWritable.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/Metric.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/Metric.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/Metric.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/Metric.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/Metric$Builder.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/Metric.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto$TaskStatus.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils$2.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/TFConfig$Task.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/TFConfig.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils$3.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/TonyConfigurationKeys.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/TonyConfigurationKeys.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/HdfsUtils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/HdfsUtils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/TaskInfo.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/TaskInfo.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils$1.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/LocalizableResource.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/LocalizableResource.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/TFConfig.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/TFConfig.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultRequestProto$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/TaskInfo.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/TaskInfo.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/TaskStatus.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/TaskStatus.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/ApplicationRpcClient.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/ApplicationRpcClient.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterExecutionResultResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterExecutionResultResponse.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterTensorBoardUrlResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterTensorBoardUrlResponse.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterWorkerSpecRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterWorkerSpecRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterExecutionResultRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterExecutionResultRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterWorkerSpecResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterWorkerSpecResponse.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterTensorBoardUrlRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterTensorBoardUrlRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/HeartbeatRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/HeartbeatRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/GetClusterSpecResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/GetClusterSpecResponse.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/GetTaskInfosResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/GetTaskInfosResponse.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/TensorFlowCluster.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/TensorFlowCluster.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProtoOrBuilder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/MetricsRpcServer.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/MetricsRpcServer.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/MetricsWritable.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/MetricsWritable.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/RegisterTensorBoardUrlRequestPBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/RegisterTensorBoardUrlRequestPBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlRequestProtoOrBuilder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/ApplicationRpcServer.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/ApplicationRpcServer.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterExecutionResultResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterExecutionResultResponse.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/TonyPolicyProvider.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/TonyPolicyProvider.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/Empty.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/Empty.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterTensorBoardUrlResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterTensorBoardUrlResponse.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterWorkerSpecRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterWorkerSpecRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterExecutionResultRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterExecutionResultRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterWorkerSpecResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterWorkerSpecResponse.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/HeartbeatResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/HeartbeatResponse.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/GetClusterSpecRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/GetClusterSpecRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/RegisterTensorBoardUrlRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/RegisterTensorBoardUrlRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/service/TensorFlowClusterPBServiceImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/service/TensorFlowClusterPBServiceImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/TensorFlowCluster$TensorFlowClusterService$2.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/TensorFlowCluster.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/GetTaskInfosRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/GetTaskInfosRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/HeartbeatRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/HeartbeatRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/GetClusterSpecResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/GetClusterSpecResponse.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/GetTaskInfosResponse.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/GetTaskInfosResponse.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/TensorFlowCluster$TensorFlowClusterService.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/TensorFlowCluster.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/ApplicationRpc.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/ApplicationRpc.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto$TaskStatus.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/HdfsUtils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/HdfsUtils.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/models/JobEvent.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/models/JobEvent.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/EventType.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/EventType.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/Event.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/Event.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetClusterSpecResponseProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetClusterSpecResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProtoOrBuilder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/RegisterWorkerSpecRequestPBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/RegisterWorkerSpecRequestPBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecRequestProtoOrBuilder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/RegisterExecutionResultRequestPBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/RegisterExecutionResultRequestPBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultRequestProtoOrBuilder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$HeartbeatRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$HeartbeatRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/tensorflow/TonySession.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/tensorflow/TonySession.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/tensorflow/TonySession$TaskType.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/tensorflow/TonySession.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/tensorflow/TonySession$TonyTask.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/tensorflow/TonySession.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/tensorflow/TonySession$Builder.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/tensorflow/TonySession.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/TonyConfigurationKeys.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/TonyConfigurationKeys.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/TaskInfo.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/TaskInfo.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/tensorflow/TonySession$1.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/tensorflow/TonySession.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/LocalizableResource.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/LocalizableResource.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/ApplicationFinished.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/ApplicationFinished.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/ApplicationFinished$Builder.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/ApplicationFinished.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/models/JobMetadata.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/models/JobMetadata.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/models/JobMetadata$Builder.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/models/JobMetadata.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/models/JobMetadata$1.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/models/JobMetadata.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/RegisterTensorBoardUrlResponsePBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/RegisterTensorBoardUrlResponsePBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlResponseProtoOrBuilder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlResponseProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/TaskFinished.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/TaskFinished.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/events/TaskFinished$Builder.class
+     sourceDir: tony-core/build/generated-main-avro-java
+     sourceFile: com/linkedin/tony/events/TaskFinished.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/RegisterWorkerSpecResponsePBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/RegisterWorkerSpecResponsePBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecResponseProtoOrBuilder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecResponseProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetClusterSpecRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetClusterSpecRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetClusterSpecRequestProto$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/HeartbeatRequestPBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/HeartbeatRequestPBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$HeartbeatRequestProtoOrBuilder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$HeartbeatRequestProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$HeartbeatRequestProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/GetClusterSpecResponsePBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/GetClusterSpecResponsePBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetClusterSpecResponseProtoOrBuilder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetClusterSpecResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetClusterSpecResponseProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/pb/RegisterExecutionResultResponsePBImpl.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/pb/RegisterExecutionResultResponsePBImpl.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultResponseProtoOrBuilder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterExecutionResultResponseProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/tensorflow/TonySession$TonyTask.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/tensorflow/TonySession.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/tensorflow/TonySession.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/tensorflow/TonySession.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/TaskInfo.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/TaskInfo.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlResponseProto$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterTensorBoardUrlResponseProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecResponseProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecResponseProto$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$1.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$RegisterWorkerSpecResponseProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
