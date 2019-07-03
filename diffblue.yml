@@ -1,13 +1,52 @@
 units:
  - target:
    - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/Utils$2.class
+     file: com/linkedin/tony/util/ProtoUtils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/ProtoUtils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto$TaskStatus.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/TaskInfo.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/TaskInfo.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/TaskStatus.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/TaskStatus.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils$1.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/util/Utils.java
    - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/util/Utils.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/util/Utils.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils$3.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+ - target:
+   - dir: tony-mini/build/classes/java/main
+     file: com/linkedin/minitony/cluster/HDFSUtils.class
+     sourceDir: tony-mini/src/main/java
+     sourceFile: com/linkedin/minitony/cluster/HDFSUtils.java
  - target:
    - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/util/HistoryFileUtils.class
@@ -18,19 +57,39 @@ units:
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/models/JobMetadata.java
  - target:
-   - dir: tony-mini/out/production/classes
-     file: com/linkedin/minitony/cluster/MiniTonyUtils.class
-     sourceDir: tony-mini/src/main/java
-     sourceFile: com/linkedin/minitony/cluster/MiniTonyUtils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils$2.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
  - target:
    - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/util/Utils.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/util/Utils.java
    - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils$1.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/LocalizableResource.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/LocalizableResource.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/TFConfig.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/TFConfig.java
+   - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils$3.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
    - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/util/Utils$2.class
      sourceDir: tony-core/src/main/java
@@ -51,64 +110,21 @@ units:
      file: com/linkedin/tony/util/HdfsUtils.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/util/HdfsUtils.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/Utils$1.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/Utils.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/LocalizableResource.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/LocalizableResource.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/TFConfig.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/TFConfig.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/Utils$3.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/Utils.java
+ - target:
+   - dir: tony-mini/build/classes/java/main
+     file: com/linkedin/minitony/cluster/MiniTonyUtils.class
+     sourceDir: tony-mini/src/main/java
+     sourceFile: com/linkedin/minitony/cluster/MiniTonyUtils.java
  - target:
    - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/ProtoUtils.class
+     file: com/linkedin/tony/util/HdfsUtils.class
      sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/ProtoUtils.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto$TaskStatus.class
-     sourceDir: tony-core/src/generated/main/java
-     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/rpc/TaskInfo.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/rpc/TaskInfo.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto$Builder.class
-     sourceDir: tony-core/src/generated/main/java
-     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/rpc/impl/TaskStatus.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/rpc/impl/TaskStatus.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto.class
-     sourceDir: tony-core/src/generated/main/java
-     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+     sourceFile: com/linkedin/tony/util/HdfsUtils.java
  - target:
    - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/util/ParserUtils.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/util/ParserUtils.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/Utils.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/Utils.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/HdfsUtils.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/HdfsUtils.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/models/JobMetadata$Builder.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/models/JobMetadata.java
    - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/models/JobMetadata.class
      sourceDir: tony-core/src/main/java
@@ -117,31 +133,15 @@ units:
      file: com/linkedin/tony/models/JobConfig.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/models/JobConfig.java
- - target:
-   - dir: tony-mini/out/production/classes
-     file: com/linkedin/minitony/cluster/HDFSUtils.class
-     sourceDir: tony-mini/src/main/java
-     sourceFile: com/linkedin/minitony/cluster/HDFSUtils.java
- - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/models/JobMetadata$Builder.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/models/JobMetadata.java
    - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/util/HdfsUtils.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/util/HdfsUtils.java
- - target:
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/Utils$1.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/Utils.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/Utils.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/Utils.java
- - target:
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/Utils$3.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/Utils.java
-   - dir: tony-core/build/classes/java/main
-     file: com/linkedin/tony/util/Utils.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/Utils.java
