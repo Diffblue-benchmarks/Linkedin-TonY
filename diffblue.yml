@@ -1,192 +1,19 @@
-# Copyright 2019 Diffblue Limited. All Rights Reserved.
-cbmcArguments:
-  # Do not generate coverage comments on generated tests.
-  java-generate-no-comments: true
-  # Constrain the size of arrays created in the analyzed code.
-  java-max-vla-length: 100000
-phases:
-  -
-    # Phase 0 PRETTY, SIMPLE and SMART - pretty tests, do not test private methods directly, Smart-Harness
-    timeout: 180
-    cbmcArguments:
-      # Use simple models first containers (ArrayList, HashMap, HashSet,...) will have a maximum size of one.
-      classpath: '/tools/cbmc/models-simple-overlay.jar:/tools/cbmc/models.jar:.'
-      # Set a limit on the number of instructions that can be generated as part of a test trace.
-      depth: 1500
-      # Maximum allowed length for an array passed as test input.
-      max-nondet-array-length: 10
-      # Bound the length of input strings.
-      max-nondet-string-length: 10
-      # Add constraint that strings are printable
-      string-printable: true
-      # Make implicit runtime exceptions explicit.
-      throw-runtime-exceptions: false
-      # Set an upper bound on loop unwinding.
-      unwind: 1
-      # Do not test any methods that have the specified access level.
-      do-not-test-methods-with-access: [private]
-      # Instrument the entry point function only.
-      cover-function-only: false
-      # Instrument the file as opposed to the function only
-      cover-only: file
-      # Set string input value
-      string-input-value: ["foo", "Bar", "BAZ", "1234", "1a 2b 3c", "A1B2C3", "a,b,c", "1", "2", "3", "a/b/c", "a'b'c", ",", "/", "'"]
-      # Instantiate classes using the simplest constructor strategy
-      smart-harness: simplest-constructor-and-nondet
-  -
-    # Phase 1 PRETTY AND COMPLEX - standard models only, pretty tests, do not test private methods directly, input factory
-    timeout: 180
-    cbmcArguments:
-      # Use the standard models library
-      classpath: '/tools/cbmc/models.jar:.'
-      # Set a limit on the number of instructions that can be generated as part of a test trace.
-      depth: false
-      # never initialize reference-typed parameter to the entry point with null
-      java-assume-inputs-non-null: true
-      # Maximum allowed length for an array passed as test input.
-      max-nondet-array-length: 10
-      # Bound the length of input strings.
-      max-nondet-string-length: 10
-      # Add constraint that strings are printable
-      string-printable: true
-      # Set string input value
-      string-input-value: ["foo", "Bar", "BAZ", "1234", "1a 2b 3c", "A1B2C3", "a,b,c", "1", "2", "3", "a/b/c", "a'b'c", ",", "/", "'"]
-      # Make implicit runtime exceptions explicit.
-      throw-runtime-exceptions: false
-      # Set an upper bound on loop unwinding.
-      unwind: 2
-      # Do not test any methods that have the specified access level.
-      do-not-test-methods-with-access: [private]
-      # Instrument the entry point function only.
-      cover-function-only: false
-      # instrument the file as opposed to the function only
-      cover-only: file
-      # Limit input factory recursive depth (default 0 = no recursion allowed)
-      java-test-input-factory-bmc-recursion-limit: 4
-  -
-    # Phase 2 FIFO Strategy - pretty tests, do not test private methods directly, fifo
-    timeout: 100
-    cbmcArguments:
-      # Use the standard models library
-      classpath: '/tools/cbmc/models.jar:.'
-      # Set a limit on the number of instructions that can be generated as part of a test trace.
-      depth: false
-      # never initialize reference-typed parameter to the entry point with null
-      java-assume-inputs-non-null: true
-      # Maximum allowed length for an array passed as test input.
-      max-nondet-array-length: 30
-      # Add constraint that strings are printable
-      max-nondet-string-length: 100
-      # Explores the program tree breadth-first.
-      paths: fifo
-      # Set string input value
-      string-input-value: ["foo", "Bar", "BAZ", "1234", "1a 2b 3c", "A1B2C3", "a,b,c", "1", "2", "3", "a/b/c", "a'b'c", ",", "/", "'"]
-      # Add constraint that strings are printable
-      string-printable: true
-      # Make implicit runtime exceptions explicit.
-      throw-runtime-exceptions: false
-      # Set an upper bound on loop unwinding.
-      unwind: false
-      # Do not test any methods that have the specified access level.
-      do-not-test-methods-with-access: [private]
-      # Instrument the entry point function only.
-      cover-function-only: false
-      # instrument the file as opposed to the function only
-      cover-only: file
-  -
-    # Phase 3 Exceptions - do not test private methods directly
-    timeout: 180
-    cbmcArguments:
-      # Use simple models containers first (ArrayList, HashMap, HashSet,...) will have a maximum size of one.
-      classpath: '/tools/cbmc/models-simple-overlay.jar:/tools/cbmc/models.jar:.'
-      # Set a limit on the number of instructions that can be generated as part of a test trace.
-      depth: false
-      # Maximum allowed length for an array passed as test input.
-      max-nondet-array-length: 30
-      # Bound the length of input strings.
-      max-nondet-string-length: 30
-      # Add constraint that strings are printable
-      string-printable: false
-      # Make implicit runtime exceptions explicit.
-      throw-runtime-exceptions: true
-      # Set an upper bound on loop unwinding.
-      unwind: 3
-      # Do not test any methods that have the specified access level.
-      do-not-test-methods-with-access: [private]
-      # Instrument the entry point function only.
-      cover-function-only: false
-      # instrument the file as opposed to the function only
-      cover-only: file
-  -
-    # Phase 4 Direct testing - test private methods directly, increased reflection
-    timeout: 180
-    cbmcArguments:
-      # Use simple models containers first (ArrayList, HashMap, HashSet,...) will have a maximum size of one.
-      classpath: '/tools/cbmc/models-simple-overlay.jar:/tools/cbmc/models.jar:.'
-      # Set a limit on the number of instructions that can be generated as part of a test trace.
-      depth: 1500
-      # never initialize reference-typed parameter to the entry point with null
-      java-assume-inputs-non-null: true
-      # Maximum allowed length for an array passed as test input.
-      max-nondet-array-length: 10
-      # Bound the length of input strings.
-      max-nondet-string-length: 10
-      # Add constraint that strings are printable
-      string-printable: true
-      # Make implicit runtime exceptions explicit.
-      throw-runtime-exceptions: false
-      # Set an upper bound on loop unwinding.
-      unwind: 1
-      # Set string input value
-      string-input-value: ["foo", "Bar", "BAZ", "1234", "1a 2b 3c", "A1B2C3", "a,b,c", "1", "2", "3", "a/b/c", "a'b'c", ",", "/", "'"]
-      # If the logs contain output of the following then proceed to phase X
-    nextPhase:
-      # If the function is not analysable then do not pass onto the next phase
-      not_analyzed: null
-  -
-    # PHASE 5 Mocking - aggressive mocking, do not test private methods directly
-    timeout: 180
-    cbmcArguments:
-      # Use simple models containers first (ArrayList, HashMap, HashSet,...) will have a maximum size of one.
-      classpath: '/tools/cbmc/models-simple-overlay.jar:/tools/cbmc/models.jar:.'
-      # Set a limit on the number of instructions that can be generated as part of a test trace.
-      depth: 3000
-      # never initialize reference-typed parameter to the entry point with null
-      java-assume-inputs-non-null: true
-      # Only load the class (and related inner/outer classes) containing the method under test,
-      load-containing-class-only: true
-      # Maximum allowed length for an array passed as test input.
-      max-nondet-array-length: 30
-      # Bound the length of input strings.
-      max-nondet-string-length: 100
-      # Add constraint that strings are printable
-      string-printable: false
-      # Make implicit runtime exceptions explicit.
-      throw-runtime-exceptions: true
-      # Set an upper bound on loop unwinding.
-      unwind: 3
-      # Do not test any methods that have the specified access level.
-      do-not-test-methods-with-access: [private]
-      # Instrument the entry point function only.
-      cover-function-only: false
-      # instrument the file as opposed to the function only
-      cover-only: file
 units:
  - target:
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/util/Utils$3.class
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils$2.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/util/Utils.java
-   - dir: tony-core/out/production/classes
+   - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/util/Utils.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/util/Utils.java
  - target:
-   - dir: tony-core/out/production/classes
+   - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/util/HistoryFileUtils.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/util/HistoryFileUtils.java
-   - dir: tony-core/out/production/classes
+   - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/models/JobMetadata.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/models/JobMetadata.java
@@ -196,134 +23,125 @@ units:
      sourceDir: tony-mini/src/main/java
      sourceFile: com/linkedin/minitony/cluster/MiniTonyUtils.java
  - target:
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/util/Utils$2.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/Utils.java
-   - dir: tony-core/out/production/classes
+   - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/util/Utils.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/util/Utils.java
- - target:
-   - dir: tony-core/out/test/classes
-     file: com/linkedin/tony/util/TestUtils$1.class
-     sourceDir: tony-core/src/test/java
-     sourceFile: com/linkedin/tony/util/TestUtils.java
-   - dir: tony-core/out/test/classes
-     file: com/linkedin/tony/util/TestUtils.class
-     sourceDir: tony-core/src/test/java
-     sourceFile: com/linkedin/tony/util/TestUtils.java
- - target:
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/util/Utils.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/Utils.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/util/Utils$3.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/Utils.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/TFConfig.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/TFConfig.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/LocalizableResource.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/LocalizableResource.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/util/Utils$2.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/Utils.java
-   - dir: tony-core/out/production/classes
+   - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/tensorflow/TensorFlowContainerRequest.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/TonyConfigurationKeys.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/TonyConfigurationKeys.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/util/HdfsUtils.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/HdfsUtils.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/rpc/TaskInfo.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/rpc/TaskInfo.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/util/Utils$1.class
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils$2.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/util/Utils.java
-   - dir: tony-core/out/production/classes
+   - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/TFConfig$Task.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/TFConfig.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/TonyConfigurationKeys.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/TonyConfigurationKeys.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/TaskInfo.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/TaskInfo.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/HdfsUtils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/HdfsUtils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils$1.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/LocalizableResource.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/LocalizableResource.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/TFConfig.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/TFConfig.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils$3.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/ProtoUtils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/ProtoUtils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto$TaskStatus.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/TaskInfo.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/TaskInfo.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto$Builder.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/impl/TaskStatus.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/rpc/impl/TaskStatus.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto.class
+     sourceDir: tony-core/src/generated/main/java
+     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/ParserUtils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/ParserUtils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/HdfsUtils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/HdfsUtils.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/models/JobMetadata$Builder.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/models/JobMetadata.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/models/JobMetadata.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/models/JobMetadata.java
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/models/JobConfig.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/models/JobConfig.java
  - target:
    - dir: tony-mini/out/production/classes
      file: com/linkedin/minitony/cluster/HDFSUtils.class
      sourceDir: tony-mini/src/main/java
      sourceFile: com/linkedin/minitony/cluster/HDFSUtils.java
  - target:
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/util/ParserUtils.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/ParserUtils.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/models/JobMetadata.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/models/JobMetadata.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/models/JobConfig.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/models/JobConfig.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/util/HdfsUtils.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/HdfsUtils.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/util/Utils.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/Utils.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/models/JobMetadata$Builder.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/models/JobMetadata.java
- - target:
-   - dir: tony-core/out/production/classes
+   - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/util/HdfsUtils.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/util/HdfsUtils.java
  - target:
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/util/ProtoUtils.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/util/ProtoUtils.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto$Builder.class
-     sourceDir: tony-core/src/generated/main/java
-     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/rpc/impl/TaskStatus.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/rpc/impl/TaskStatus.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto.class
-     sourceDir: tony-core/src/generated/main/java
-     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos$GetTaskInfosResponseProto$TaskInfoProto$TaskStatus.class
-     sourceDir: tony-core/src/generated/main/java
-     sourceFile: com/linkedin/tony/rpc/proto/YarnTensorFlowClusterProtos.java
-   - dir: tony-core/out/production/classes
-     file: com/linkedin/tony/rpc/TaskInfo.class
-     sourceDir: tony-core/src/main/java
-     sourceFile: com/linkedin/tony/rpc/TaskInfo.java
- - target:
-   - dir: tony-core/out/production/classes
+   - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/util/Utils$1.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/util/Utils.java
-   - dir: tony-core/out/production/classes
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+ - target:
+   - dir: tony-core/build/classes/java/main
+     file: com/linkedin/tony/util/Utils$3.class
+     sourceDir: tony-core/src/main/java
+     sourceFile: com/linkedin/tony/util/Utils.java
+   - dir: tony-core/build/classes/java/main
      file: com/linkedin/tony/util/Utils.class
      sourceDir: tony-core/src/main/java
      sourceFile: com/linkedin/tony/util/Utils.java
